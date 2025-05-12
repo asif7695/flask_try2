@@ -1,2 +1,9 @@
-<h1>Hello {{username|upper}}</h1>
-<p>This is it</p>
+{% extends 'base.html'%}
+
+{% block content %}
+
+<h1>Hello {{username|title}}</h1>
+<p>The Pirate King!!</p>
+
+
+{% endblock %}

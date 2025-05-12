@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for i in get_flashed_messages()%}
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        <strong>{{i}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+{% endfor %}
+
+
+
+
+{% if name %}
+    <h1 style="color:rgb(87, 11, 11);"> HI {{name}}!!! </h1>
+    <h1 style="color:rgb(87, 11, 11);">What's your name?</h1><br/>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control" ) }}
+        <br/>
+        {{ form.submit(class="btn", style="background-color: rgb(87, 11, 11); color: white;") }}
+    </form><br/>
+    <h3>Eida aktah flask </h3><br/>
+    <img src="{{url_for('static', filename='images/flsk.png')}}" width=200>
+    <p id="demo">helo helo... mic testing... </p>
+
+<script src="{{url_for('static',filename='js/myfile.js')}}"></script>
+
+
+
+{% else %}
+    <h1 style="color:rgb(87, 11, 11);">What's your name?</h1><br/>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control" ) }}
+        <br/>
+        {{ form.submit(class="btn", style="background-color: rgb(87, 11, 11); color: white;") }}
+    </form>
+
+{% endif %}
+
+
+{% endblock %}
