@@ -14,15 +14,13 @@
 
 
 {% if name %}
-    <h1 style="color:rgb(87, 11, 11);"> HI {{name}}!!! </h1><br/>
-    <h3 style="color:rgb(87, 11, 11);"> Check if your name is there or not </h3><br/>
-    <h5 style="color:rgb(87, 11, 11);"> If not then this email is already in use... Try another email</h5><br/>
+    <h1 style="color:rgb(87, 11, 11);">Updated User List</h1><br/>
 
     <table class="table table-hover">
         <tr>
             <td style="color: white;">
                 {% for i in our_users %}
-                    {{i.id}}. <a href="{{url_for('update',id=i.id)}}">{{i.name}}</a> = {{i.email}} - {{i.month}} pw: {{i.password_hash}} <a href="{{url_for('delete',id=i.id)}}">Delete</a><br/>
+                    {{i.id}}. {{i.name}} = {{i.email}} - {{i.month}} pw: {{i.password_hash}}<br/>
                 {% endfor %}
             </td>
         </tr>
@@ -33,22 +31,19 @@
 
 
 {% else %}
-    <h1 style="color:rgb(87, 11, 11);">User List</h1><br/>
+    <h1 style="color:rgb(87, 11, 11);">Update User List</h1><br/>
     <div class="shadow p-3 mb-5 rounded" style="background-color: rgb(87, 11, 11); color: white;">
-        <form method="POST">
+        <form action="/update/{{name_to_update.id}}" method="POST">
             {{ form.hidden_tag() }}
             {{ form.name.label(class="form-label") }}
-            {{ form.name(class="form-control" ) }}
+            {{ form.name(class="form-control", value= name_to_update.name ) }}
             {{ form.email.label(class="form-label") }}
-            {{ form.email(class="form-control" ) }}
+            {{ form.email(class="form-control", value= name_to_update.email)  }}
             {{ form.month.label(class="form-label") }}
-            {{ form.month(class="form-control") }}
-            {{ form.password_hash.label(class="form-label") }}
-            {{ form.password_hash(class="form-control") }}
-            {{ form.password_hash2.label(class="form-label") }}
-            {{ form.password_hash2(class="form-control") }}            
+            {{ form.month(class="form-control", value= name_to_update.month)  }}
             <br/>
             {{ form.submit(class="btn", style="background-color: rgb(0, 0, 0); color: white;") }}
+             <a href="{{url_for('delete',id=id)}}" class="btn", style="background-color: rgb(167, 5, 5); color: white;">Delete</a>
         </form>
     </div>
     <br/><br/><br/>
@@ -57,7 +52,7 @@
     <tr>
         <td style="color: white;">
             {% for i in our_users %}
-                {{i.id}}. <a href="{{url_for('update',id=i.id)}}">{{i.name}}</a> = {{i.email}} - {{i.month}} pw: {{i.password_hash}} <a href="{{url_for('delete',id=i.id)}}">Delete</a><br/>
+                {{i.id}}. {{i.name}} = {{i.email}} - {{i.month}} pw: {{i.password_hash}}<br/>
             {% endfor %}
         </td>
     </tr>
