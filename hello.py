@@ -243,9 +243,6 @@ def current_current_date():
 if __name__ == '__main__':
     app.run(debug=True)
     
-'''
-export FLASK_APP=hello.py
-flask run
+#its ookk??
 
 
-'''
