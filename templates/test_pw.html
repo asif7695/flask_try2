@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+
+{% if email %}
+    <h1 style="color:rgb(87, 11, 11);">Email : {{email}}</h1>
+    <h1 style="color:rgb(87, 11, 11);">Pass : {{ password}}</h1><br/>
+    <h3 style="color:rgb(87, 11, 11);">Found the info: name:{{pw_to_check.name}},<br/> email: {{pw_to_check.email}},<br/> pw: {{pw_to_check.password_hash}}<br/> Pass: {{passed}}</h3>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control" ) }}
+        {{ form.password_hash.label(class="form-label") }}
+        {{ form.password_hash(class="form-control" ) }}
+        <br/>
+        {{ form.submit(class="btn", style="background-color: rgb(87, 11, 11); color: white;") }}
+    </form><br/>
+
+
+
+{% else %}
+    <h1 style="color:rgb(87, 11, 11);">What's your email and pass?</h1><br/>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control" ) }}
+        {{ form.password_hash.label(class="form-label") }}
+        {{ form.password_hash(class="form-control" ) }}
+        <br/>
+        {{ form.submit(class="btn", style="background-color: rgb(87, 11, 11); color: white;") }}
+    </form>
+
+{% endif %}
+
+
+{% endblock %}

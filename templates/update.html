@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for i in get_flashed_messages()%}
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        <strong>{{i}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+{% endfor %}
+
+
+
+
+{% if name %}
+    <h1 style="color:rgb(87, 11, 11);">Updated User List</h1><br/>
+
+    <table class="table table-hover">
+        <tr>
+            <td style="color: white;">
+                {% for i in our_users %}
+                    {{i.id}}. {{i.name}} = {{i.email}} - {{i.month}} pw: {{i.password_hash}}<br/>
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+    <form method="POST">
+        <button type="button" class="btn"  style="background-color: rgb(87, 11, 11); color: white;" onclick="window.location.href='{{ url_for('add_user') }}'">Go to User List</button>
+    </form><br/>
+
+
+{% else %}
+    <h1 style="color:rgb(87, 11, 11);">Update User List</h1><br/>
+    <div class="shadow p-3 mb-5 rounded" style="background-color: rgb(87, 11, 11); color: white;">
+        <form action="/update/{{name_to_update.id}}" method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-control", value= name_to_update.name ) }}
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control", value= name_to_update.email)  }}
+            {{ form.month.label(class="form-label") }}
+            {{ form.month(class="form-control", value= name_to_update.month)  }}
+            <br/>
+            {{ form.submit(class="btn", style="background-color: rgb(0, 0, 0); color: white;") }}
+             <a href="{{url_for('delete',id=id)}}" class="btn", style="background-color: rgb(167, 5, 5); color: white;">Delete</a>
+        </form>
+    </div>
+    <br/><br/><br/>
+
+<table class="table table-hover">
+    <tr>
+        <td style="color: white;">
+            {% for i in our_users %}
+                {{i.id}}. {{i.name}} = {{i.email}} - {{i.month}} pw: {{i.password_hash}}<br/>
+            {% endfor %}
+        </td>
+    </tr>
+</table>
+
+
+
+{% endif %}
+
+
+
+{% endblock %}
