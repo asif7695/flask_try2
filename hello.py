@@ -245,4 +245,4 @@ if __name__ == '__main__':
     
 #its ookk??
 
-
+#its okk ig...
