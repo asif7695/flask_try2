@@ -237,7 +237,7 @@ def current_current_date():
     return fav_pizza
     #return {"Date" : datetime.today()}
 
-#mic check 1,2,3
+
 
 
 if __name__ == '__main__':
