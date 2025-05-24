@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, request 
+from flask import Flask, render_template, flash, request, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField,TextAreaField, BooleanField, ValidationError
 from wtforms.validators import DataRequired, EqualTo, Length
@@ -220,12 +220,52 @@ def delete(id):
         our_users = Users.query.order_by(Users.date_added)
         return render_template("add_user.html",form=form,name=name,our_users = our_users)
 
+@app.route('/posts')
+def posts():
+    #grab posts from db
+    posts = Posts.query.order_by(Posts.date_posted)
+    return render_template("posts.html", posts=posts)
 
+@app.route('/posts/<int:id>')
+def post(id):
+    post = Posts.query.get_or_404(id)
+    return render_template("post.html",post=post)
 
+@app.route('/post/edit/<int:id>', methods=["GET", "POST"])
+def edit_post(id):
+    post = Posts.query.get_or_404(id)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.author = form.author.data
+        post.slug = form.slug.data
+        post.content = form.content.data
+        
+        db.session.add(post)
+        db.session.commit()
+        
+        flash("Form Updated Successfully")
+        return redirect(url_for('post',id=post.id))
+    form.title.data = post.title
+    form.author.data = post.author
+    form.slug.data = post.slug
+    form.content.data = post.content
+    return render_template('edit_post.html',form=form)
 
-
-
-
+@app.route('/post/delete/<int:id>')
+def delete_post(id):
+    post_to_delete = Posts.query.get_or_404(id)
+    
+    try:
+        db.session.delete(post_to_delete)
+        db.session.commit()
+        flash("Post deleted successfully ")
+        posts = Posts.query.order_by(Posts.date_posted)
+        return render_template("posts.html", posts=posts)
+    except:
+        flash("Looks like something wrong try again.")
+        posts = Posts.query.order_by(Posts.date_posted)
+        return render_template("posts.html", posts=posts)
 
 @app.route('/date')
 def current_current_date():

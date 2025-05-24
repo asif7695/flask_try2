@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for i in get_flashed_messages()%}
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        <strong>{{i}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+{% endfor %}
+<h1 style="color:rgb(87, 11, 11);">Blog Posts</h1><br/>
+
+{% for i in posts %}
+    <div class="shadow p-3 mb-5 rounded" style="background-color: rgb(87, 11, 11); color: white;">
+            <h2>{{i.id}}. {{ i.title }}</h2>
+            <h6>by: {{ i.author }}</h6>
+            <h4>{{ i.content }}</h4>
+            <h6>Posted date and time: {{ i.date_posted }}</h6><br/>
+            <form method="POST">
+                <button type="button" class="btn"  style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);" onclick="window.location.href='{{ url_for('post',id=i.id) }}'">View Post</button>
+            </form>
+
+    </div>
+    <br/><br/><br/>
+{% endfor %}
+
+
+
+
+{% endblock %}
