@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for i in get_flashed_messages()%}
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        <strong>{{i}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+{% endfor %}
+
+
+
+
+    <h1 style="color:rgb(87, 11, 11);">Login</h1><br/>
+
+
+    <div class="shadow p-3 mb-5 rounded" style="background-color: rgb(87, 11, 11); color: white;">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control" ) }}
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control") }}         
+            <br/>
+            {{ form.submit(class="btn", style="background-color: rgb(0, 0, 0); color: white;") }}
+        </form>
+    </div>
+    <br/>
+    <h3 style="color:rgb(87, 11, 11);">No Account???</h3><br/>
+    <button type="button" class="btn"  style="background-color: rgb(87, 11, 11); color: rgb(255, 255, 255);" onclick="window.location.href='{{ url_for('add_user') }}'">Register Now</button>
+
+
+{% endblock %}

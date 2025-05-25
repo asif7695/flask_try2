@@ -22,7 +22,7 @@
         <tr>
             <td style="color: white;">
                 {% for i in our_users %}
-                    {{i.id}}. <a href="{{url_for('update',id=i.id)}}">{{i.name}}</a> = {{i.email}} - {{i.month}} pw: {{i.password_hash}} <a href="{{url_for('delete',id=i.id)}}">Delete</a><br/>
+                    {{i.id}}. <a href="{{url_for('update',id=i.id)}}">{{i.name}}</a> = {{i.username}}- {{i.email}} - {{i.month}} pw: {{i.password_hash}} <a href="{{url_for('delete',id=i.id)}}">Delete</a><br/>
                 {% endfor %}
             </td>
         </tr>
@@ -39,6 +39,8 @@
             {{ form.hidden_tag() }}
             {{ form.name.label(class="form-label") }}
             {{ form.name(class="form-control" ) }}
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control" ) }}
             {{ form.email.label(class="form-label") }}
             {{ form.email(class="form-control" ) }}
             {{ form.month.label(class="form-label") }}

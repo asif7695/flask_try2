@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for i in get_flashed_messages()%}
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        <strong>{{i}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+{% endfor %}
+
+    <h1 style="color:rgb(87, 11, 11);">Hey {{current_user.name}}!!!</h1><br/>
+    <h3 style="color:rgb(87, 11, 11);">You are logged in</h3><br/>
+
+<div class="card text-white mb-3" style="max-width: 30rem; background-color: rgb(87, 11, 11);">
+  <div class="card-header"><h3>{{ current_user.name|upper }}</h3></div>
+  <div class="card-body">
+    
+    <strong>Your...</strong><br/>
+    <strong>ID : {{ current_user.id }}</strong><br/>
+    <strong>Username : </strong>{{ current_user.username }}<br/>
+    <strong>Email : </strong>{{ current_user.email }}<br/>
+    <strong>Birth Month : </strong>{{ current_user.month }}<br/>
+    <strong>Join Date : </strong>{{ current_user.date_added }}<br/><br/>
+    <button type="button" class="btn"  style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);" onclick="window.location.href='{{ url_for('logout') }}'">Log Out</button>
+
+  </div>
+</div>
+
+
+
+{% endblock %}

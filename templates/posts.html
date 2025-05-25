@@ -11,7 +11,7 @@
 <h1 style="color:rgb(87, 11, 11);">Blog Posts</h1><br/>
 
 {% for i in posts %}
-    <div class="shadow p-3 mb-5 rounded" style="background-color: rgb(87, 11, 11); color: white;">
+    <div class="shadow p-3 mb-5 rounded" style="max-width: 30rem; background-color: rgb(87, 11, 11); color: white;">
             <h2>{{i.id}}. {{ i.title }}</h2>
             <h6>by: {{ i.author }}</h6>
             <h4>{{ i.content }}</h4>
