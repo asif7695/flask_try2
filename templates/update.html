@@ -10,33 +10,15 @@
     
 {% endfor %}
 
+{% if id == current_user.id %}
 
-
-
-{% if name %}
-    <h1 style="color:rgb(87, 11, 11);">Updated User List</h1><br/>
-
-    <table class="table table-hover">
-        <tr>
-            <td style="color: white;">
-                {% for i in our_users %}
-                    {{i.id}}. {{i.name}} = {{i.email}} - {{i.month}} pw: {{i.password_hash}}<br/>
-                {% endfor %}
-            </td>
-        </tr>
-    </table>
-    <form method="POST">
-        <button type="button" class="btn"  style="background-color: rgb(87, 11, 11); color: white;" onclick="window.location.href='{{ url_for('add_user') }}'">Go to User List</button>
-    </form><br/>
-
-
-{% else %}
-    <h1 style="color:rgb(87, 11, 11);">Update User List</h1><br/>
     <div class="shadow p-3 mb-5 rounded" style="background-color: rgb(87, 11, 11); color: white;">
         <form action="/update/{{name_to_update.id}}" method="POST">
             {{ form.hidden_tag() }}
             {{ form.name.label(class="form-label") }}
             {{ form.name(class="form-control", value= name_to_update.name ) }}
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control", value= name_to_update.username ) }}
             {{ form.email.label(class="form-label") }}
             {{ form.email(class="form-control", value= name_to_update.email)  }}
             {{ form.month.label(class="form-label") }}
@@ -48,19 +30,12 @@
     </div>
     <br/><br/><br/>
 
-<table class="table table-hover">
-    <tr>
-        <td style="color: white;">
-            {% for i in our_users %}
-                {{i.id}}. {{i.name}} = {{i.email}} - {{i.month}} pw: {{i.password_hash}}<br/>
-            {% endfor %}
-        </td>
-    </tr>
-</table>
-
-
+{% else %}
+    <h1>Sorry, You can't edit this user.</h1>
 
 {% endif %}
+
+
 
 
 

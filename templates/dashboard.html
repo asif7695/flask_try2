@@ -23,7 +23,8 @@
     <strong>Email : </strong>{{ current_user.email }}<br/>
     <strong>Birth Month : </strong>{{ current_user.month }}<br/>
     <strong>Join Date : </strong>{{ current_user.date_added }}<br/><br/>
-    <button type="button" class="btn"  style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);" onclick="window.location.href='{{ url_for('logout') }}'">Log Out</button>
+    <button type="button" class="btn"  style="background-color: rgb(0, 0, 0); color: rgb(255, 0, 0);" onclick="window.location.href='{{ url_for('logout') }}'">Log Out</button>
+    <button type="button" class="btn"  style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);" onclick="window.location.href='{{ url_for('update',id=current_user.id) }}'">Update User Info</button>
 
   </div>
 </div>
