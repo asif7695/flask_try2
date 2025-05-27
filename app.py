@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from datetime import datetime,date
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, login_user,LoginManager, login_required, logout_user, current_user
-from webforms import LoginForm, NamerForm, PostForm,UserForm, PasswordForm
+from webforms import LoginForm, NamerForm, PostForm,UserForm, PasswordForm, SearchForm
 
 
 
@@ -79,6 +79,13 @@ def add_user():
     return render_template("add_user.html",form=form,name=name,our_users = our_users)
 
 
+
+
+#pass stuff to navbar
+@app.context_processor
+def base():
+    form = SearchForm()
+    return dict(form=form)
 
 @app.route('/date')
 def current_current_date():
@@ -247,6 +254,19 @@ def post(id):
     post = Posts.query.get_or_404(id)
     return render_template("post.html",post=post)
 
+
+
+@app.route('/search',methods=['POST'])
+def search():
+    form = SearchForm()
+    posts = Posts.query
+    if form.validate_on_submit():
+        #get data from submitted form
+        post.searched = form.searched.data
+        #query database
+        posts = posts.filter(Posts.content.like('%'+post.searched+'%'))
+        posts = posts.order_by(Posts.title).all()
+        return render_template('search.html',form=form,searched=post.searched,posts=posts)
 
 
 @app.route('/test_pw', methods= ['GET','POST'])
