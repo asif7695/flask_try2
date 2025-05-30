@@ -13,18 +13,38 @@
     <h1 style="color:rgb(87, 11, 11);">Hey {{current_user.name}}!!!</h1><br/>
     <h3 style="color:rgb(87, 11, 11);">You are logged in</h3><br/>
 
-<div class="card text-white mb-3" style="max-width: 30rem; background-color: rgb(87, 11, 11);">
+<div class="card text-white mb-3" style="max-width: 50rem; background-color: rgb(87, 11, 11);">
   <div class="card-header"><h3>{{ current_user.name|upper }}</h3></div>
   <div class="card-body">
-    
-    <strong>Your...</strong><br/>
-    <strong>ID : {{ current_user.id }}</strong><br/>
-    <strong>Username : </strong>{{ current_user.username }}<br/>
-    <strong>Email : </strong>{{ current_user.email }}<br/>
-    <strong>Birth Month : </strong>{{ current_user.month }}<br/>
-    <strong>Join Date : </strong>{{ current_user.date_added }}<br/><br/>
-    <button type="button" class="btn"  style="background-color: rgb(0, 0, 0); color: rgb(255, 0, 0);" onclick="window.location.href='{{ url_for('logout') }}'">Log Out</button>
-    <button type="button" class="btn"  style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);" onclick="window.location.href='{{ url_for('update',id=current_user.id) }}'">Update User Info</button>
+    <div class='container'>
+      <div class="row">
+        
+        <div class="col-8">
+          <strong>Your...</strong><br/>
+          <strong>ID : {{ current_user.id }}</strong><br/>
+          <strong>Username : </strong>{{ current_user.username }}<br/>
+          <strong>Email : </strong>{{ current_user.email }}<br/>
+          <strong>Birth Month : </strong>{{ current_user.month }}<br/>
+          <strong>About :</strong>{{ current_user.about }}<br/>
+          <strong>Image :</strong>{{ current_user.profile_pic }}<br/>
+          <strong>Join Date : </strong>{{ current_user.date_added }}<br/><br/>
+          <button type="button" class="btn"  style="background-color: rgb(0, 0, 0); color: rgb(255, 0, 0);" onclick="window.location.href='{{ url_for('logout') }}'">Log Out</button>
+          <button type="button" class="btn"  style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);" onclick="window.location.href='{{ url_for('update',id=current_user.id) }}'">Update User Info</button>
+        </div>
+
+      <div class="col-4">
+        {% if current_user.profile_pic %}
+          <img src="{{ url_for('static',filename='images/'~ current_user.profile_pic)}}" width='140' align="right">
+
+        {% else %}
+          <img src="{{ url_for('static',filename='images/luffy.jpg')}}" width='140' align="right">
+        {% endif %}
+      </div>
+      
+    </div>
+  </div>
+
+
 
   </div>
 </div>

@@ -26,6 +26,8 @@
             <br/>
             {{ form.submit(class="btn", style="background-color: rgb(0, 0, 0); color: white;") }}
         </form>
+        {{ ckeditor.load() }}
+        {{ ckeditor.config(name='content') }}
     </div>
 
 

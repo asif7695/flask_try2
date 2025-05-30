@@ -5,12 +5,18 @@ from datetime import datetime,date
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, login_user,LoginManager, login_required, logout_user, current_user
 from webforms import LoginForm, NamerForm, PostForm,UserForm, PasswordForm, SearchForm
+from flask_ckeditor import CKEditor,CKEditorField
+from werkzeug.utils import secure_filename
+import uuid as uuid
+import os
 
 
 
 
 #create flask instance
 app= Flask(__name__)
+# add ckeditor
+ckeditor = CKEditor(app)
 
 #add database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'  #sqlite
@@ -18,6 +24,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'  #sqlite
 
 #secret key
 app.config['SECRET_KEY'] = "nothing is that secret here"
+
+
+
+#upload files
+UPLOAD_FOLDER = 'static/images'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 #initialize the db
 db = SQLAlchemy(app)
@@ -30,8 +43,15 @@ login_manager.login_view = 'login'
 app.app_context().push()
 
 
-
-   
+@app.route('/admin')
+@login_required
+def admin():
+    id = current_user.id
+    if id == 2:
+        return render_template('admin.html')
+    else:
+        flash("Only admin can access this.")
+        return redirect(url_for('dashboard'))
 #post page
 @app.route("/add-post", methods=['GET','POST'])
 @login_required
@@ -73,6 +93,7 @@ def add_user():
         form.username.data = ''
         form.email.data = ''
         form.month.data = ''
+        form.about.data = ''
         form.password_hash.data = ''
         flash("Added To The Database Successfully ;)")
     our_users = Users.query.order_by(Users.date_added)
@@ -122,6 +143,7 @@ def delete_post(id):
         return render_template("posts.html", posts=posts)        
 
 @app.route('/delete/<int:id>')
+@login_required
 def delete(id):
     user_to_delete = Users.query.get_or_404(id)
     name=None
@@ -267,7 +289,7 @@ def search():
         posts = posts.filter(Posts.content.like('%'+post.searched+'%'))
         posts = posts.order_by(Posts.title).all()
         return render_template('search.html',form=form,searched=post.searched,posts=posts)
-
+    return render_template("search.html",form=form, searched = "", post = [])
 
 @app.route('/test_pw', methods= ['GET','POST'])
 @login_required
@@ -307,7 +329,19 @@ def update(id):
         name_to_update.username = request.form["username"]
         name_to_update.email = request.form["email"]
         name_to_update.month = request.form["month"]
+        name_to_update.about = request.form["about"]
+        name_to_update.profile_pic = request.files["profile_pic"]
 
+        # Check if file is uploaded
+        if "profile_pic" in request.files and request.files["profile_pic"].filename != "":
+            file = request.files["profile_pic"]
+            # Secure filename
+            pic_filename = secure_filename(file.filename)
+            pic_name = str(uuid.uuid1()) + "_" + pic_filename
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
+            name_to_update.profile_pic = pic_name
+            
+            
         try: 
             db.session.commit()
             flash("User updated.")
@@ -342,6 +376,8 @@ class Users(db.Model, UserMixin):
     email = db.Column(db.String(200),nullable=False, unique=True)
     month = db.Column(db.String(20))
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
+    about = db.Column(db.Text(1000),nullable=True)
+    profile_pic = db.Column(db.String(),nullable=True)
     #password stuff
     password_hash = db.Column(db.String(200))
     #user can have many posts

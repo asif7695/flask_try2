@@ -25,7 +25,10 @@
 
             <br/>
             {{ form.submit(class="btn", style="background-color: rgb(0, 0, 0); color: white;") }}
-        </form>    </div>
+        </form>
+        {{ ckeditor.load() }}
+        {{ ckeditor.config(name='body') }}
+    </div>
     <br/><br/><br/>
 
 
