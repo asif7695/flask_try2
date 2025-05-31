@@ -11,16 +11,29 @@
 <h1 style="color:rgb(87, 11, 11);">Blog Posts</h1><br/>
 
 {% for i in posts %}
-    <div class="shadow p-3 mb-5 rounded" style="max-width: 30rem; background-color: rgb(87, 11, 11); color: white;">
-            <h2>{{i.id}}. {{ i.title }}</h2>
-            <h6>by: {{ i.poster.name }}</h6>
+    <div class="card text-white mb-3" style="max-width: 50rem; background-color: rgb(87, 11, 11);">
+        <div class="card-header">
+                    {% if current_user.profile_pic %}
+          <img src="{{ url_for('static',filename='images/'~ i.poster.profile_pic)}}" width='40' align="left">
+
+        {% else %}
+          <img src="{{ url_for('static',filename='images/luffy.jpg')}}" width='40' align="left">
+        {% endif %}
+            <h3>{{ i.poster.name|upper }}</h3></div>
+
+
+        <div class="card-body">
+            <h6>{{ i.title }}</h6>
             <h4>{{ i.content|safe }}</h4>
             <h6>Posted date and time: {{ i.date_posted }}</h6><br/>
             <form method="POST">
                 <button type="button" class="btn"  style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);" onclick="window.location.href='{{ url_for('post',id=i.id) }}'">View Post</button>
-            </form>
-
+            </form>        
+        </div>
+        </div>
     </div>
+
+
     <br/><br/><br/>
 {% endfor %}
 

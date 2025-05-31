@@ -126,7 +126,7 @@ def current_current_date():
 def delete_post(id):
     post_to_delete = Posts.query.get_or_404(id)
     id = current_user.id
-    if id == post_to_delete.poster.id:
+    if id == post_to_delete.poster.id or id == 2 :
         try:
             db.session.delete(post_to_delete)
             db.session.commit()
@@ -148,18 +148,21 @@ def delete(id):
     user_to_delete = Users.query.get_or_404(id)
     name=None
     form = UserForm()
-    
-    try:
-        db.session.delete(user_to_delete)
-        db.session.commit()
-        flash("User Deleted.")
-        our_users = Users.query.order_by(Users.date_added)
-        return render_template("add_user.html",form=form,name=name,our_users = our_users)
+    if id == current_user.id:
+        try:
+            db.session.delete(user_to_delete)
+            db.session.commit()
+            flash("User Deleted.")
+            our_users = Users.query.order_by(Users.date_added)
+            return render_template("add_user.html",form=form,name=name,our_users = our_users)
 
-    except:
-        flash("Something is wrong.")
-        our_users = Users.query.order_by(Users.date_added)
-        return render_template("add_user.html",form=form,name=name,our_users = our_users)
+        except:
+            flash("Something is wrong.")
+            our_users = Users.query.order_by(Users.date_added)
+            return render_template("add_user.html",form=form,name=name,our_users = our_users)
+    else:
+        flash("Sorry.. You can't delete the user.")
+        return redirect(url_for('dashboard'))
 
 
 
@@ -330,7 +333,7 @@ def update(id):
         name_to_update.email = request.form["email"]
         name_to_update.month = request.form["month"]
         name_to_update.about = request.form["about"]
-        name_to_update.profile_pic = request.files["profile_pic"]
+        #name_to_update.profile_pic = request.files["profile_pic"]
 
         # Check if file is uploaded
         if "profile_pic" in request.files and request.files["profile_pic"].filename != "":
@@ -341,13 +344,16 @@ def update(id):
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
             name_to_update.profile_pic = pic_name
             
-            
-        try: 
+            try: 
+                db.session.commit()
+                flash("User updated.")
+                return render_template("update.html",form=form, name_to_update=name_to_update,id=id)
+            except:
+                flash("Error!")
+                return render_template("update.html",form=form, name_to_update=name_to_update,id=id)
+        else:
             db.session.commit()
             flash("User updated.")
-            return render_template("update.html",form=form, name_to_update=name_to_update,id=id)
-        except:
-            flash("Error!")
             return render_template("update.html",form=form, name_to_update=name_to_update,id=id)
     else:
         return render_template("update.html",form=form, name_to_update=name_to_update,id=id)

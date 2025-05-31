@@ -28,7 +28,7 @@ class UserForm(FlaskForm):
     email = StringField("Email :", validators=[DataRequired()])
     month = StringField("Birth Month :", validators=[DataRequired()])
     about = TextAreaField("About :")
-    profile_pic = FileField("")
+    profile_pic = FileField("Add profile pic")
     password_hash = PasswordField("Password :", validators=[DataRequired(), EqualTo('password_hash2', message='Password must mach') ] ) 
     password_hash2 = PasswordField("Confirm Password :", validators=[DataRequired()])
     submit = SubmitField("Submit")

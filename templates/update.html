@@ -12,7 +12,7 @@
 
 {% if id == current_user.id %}
 
-    <div class="shadow p-3 mb-5 rounded" style="background-color: rgb(87, 11, 11); color: white;">
+    <div class="shadow p-3 mb-5 rounded" style="background-color: rgb(87, 11, 11); color: white;" width="50">
         <form action="/update/{{name_to_update.id}}" method="POST" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             {{ form.name.label(class="form-label") }}
@@ -24,10 +24,10 @@
             {{ form.month.label(class="form-label") }}
             {{ form.month(class="form-control", value= name_to_update.month)  }}
             {{ form.about.label(class="form-label") }}
-            <textarea name="about" class=form-control>{{name_to_update.about}}</textarea>
+            <textarea name="about" class=form-control >{{name_to_update.about}}</textarea>
             <br/>
             {{ form.profile_pic(class="form-control", value= name_to_update.profile_pic)  }}
-            {{ form.profile_pic.label(class="form-label") }}<br/>
+            {{ form.profile_pic.label(class="form-label") }}<br/><br/>
             {{ form.submit(class="btn", style="background-color: rgb(0, 0, 0); color: white;") }}
             <a href="{{url_for('dashboard')}}" class="btn", style="background-color: rgb(0, 0, 0); color: white;">Back to profile</a>
             <a href="{{url_for('delete',id=id)}}" class="btn", style="background-color: rgb(167, 5, 5); color: white;">Delete</a>
