@@ -330,7 +330,7 @@ def update(id):
         name_to_update.email = request.form["email"]
         name_to_update.month = request.form["month"]
         name_to_update.about = request.form["about"]
-        #name_to_update.profile_pic = request.files["profile_pic"]
+        name_to_update.profile_pic = request.files["profile_pic"]
 
         # Check if file is uploaded
         if "profile_pic" in request.files and request.files["profile_pic"].filename != "":
